@@ -2,12 +2,16 @@ from abc import abstractmethod
 from typing import List
 from interactors.storage_interfaces.dtos import UpdateCategoryCheckPointStatusDTO, EntityCustomCheckPointDTO,\
     CategoryDTO, CategoryCheckpointDTO, EntityCategoryCheckpointDTO, UpdateCategoryCheckpointTextDTO
+from constants.enums import CategoryEntityType
 
 
 class StorageInterface:
 
     @abstractmethod
-    def get_valid_category_ids(self, category_ids:List[str]):
+    def get_valid_category_ids(
+            self,
+            category_ids: List[str]
+    ) -> List[str]:
         pass
 
     @abstractmethod
@@ -25,10 +29,10 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def get_checkpoint_ids(
+    def get_entity_checkpoint_ids(
             self,
-            entity_id:str,
-            entity_type:str
+            entity_id: str,
+            entity_type: CategoryEntityType
     ):
         pass
 
@@ -36,7 +40,7 @@ class StorageInterface:
     def update_category_checkpoint_status(
             self,
             entity_id: str,
-            entity_type: str,
+            entity_type: CategoryEntityType,
             checkpoint_ids: List[str],
             is_checked: bool
     ):
@@ -64,14 +68,18 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def update_category_check_point_text(self, update_category_check_point_text_dto: UpdateCategoryCheckpointTextDTO):
+    def update_category_check_point_text(
+            self,
+            checkpoint_id: str,
+            text: str
+    ):
         pass
 
     @abstractmethod
     def get_category_checkpoints(
             self,
             entity_id: str,
-            entity_type: str,
+            entity_type: CategoryEntityType,
             category_ids: List[str]
     ) -> List[CategoryCheckpointDTO]:
         pass
@@ -80,7 +88,7 @@ class StorageInterface:
     def get_entity_category_checkpoints(
             self,
             entity_id: str,
-            entity_type: str
+            entity_type: CategoryEntityType
     ) -> List[EntityCategoryCheckpointDTO]:
         pass
 
@@ -103,4 +111,38 @@ class StorageInterface:
             self,
             entity_checkpoint_dtos: List[EntityCategoryCheckpointDTO]
     ):
+        pass
+
+    @abstractmethod
+    def get_checkpoints(
+            self,
+            checkpoint_ids: List[str]
+    ) -> List[CategoryCheckpointDTO]:
+        pass
+
+    @abstractmethod
+    def update_entity_category_checkpoint_text(
+            self,
+            entity_id: str,
+            entity_type: CategoryEntityType,
+            checkpoint_id: str,
+            text: str
+    ):
+        pass
+
+    @abstractmethod
+    def update_category_checkpoint_text(
+            self,
+            checkpoint_id: str,
+            text: str
+    ):
+        pass
+
+
+    @abstractmethod
+    def get_entity_custom_checkpoints_max_order(
+            self,
+            entity_id: str,
+            entity_type: CategoryEntityType
+    ) -> int:
         pass

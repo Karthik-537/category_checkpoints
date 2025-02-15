@@ -4,6 +4,7 @@ from exceptions import custom_exceptions
 from interactors.storage_interfaces.dtos import CategoryDTO, CategoryCheckpointDTO, EntityCategoryCheckpointDTO, \
     CheckpointResponseDTO
 from interactors.storage_interfaces.storage_interface import StorageInterface
+from constants.enums import CategoryEntityType
 
 
 class GetEntityCategoryCheckpointsInteractor:
@@ -13,7 +14,7 @@ class GetEntityCategoryCheckpointsInteractor:
     def get_entity_category_checkpoints(
             self,
             entity_id: str,
-            entity_type: str,
+            entity_type: CategoryEntityType,
             category_ids: List[str]
     ) -> Tuple[List[CategoryDTO], List[CheckpointResponseDTO]]:
         self._validate_category_ids(
@@ -59,9 +60,9 @@ class GetEntityCategoryCheckpointsInteractor:
     ):
         valid_category_ids = self.storage.get_valid_category_ids(category_ids=category_ids)
 
-        for category_id in category_ids:
-            if category_id not in valid_category_ids:
-                raise custom_exceptions.InvalidCategoryId
+        invalid_ids = [_id for _id in category_ids if _id not in valid_category_ids]
+        if invalid_ids:
+            raise custom_exceptions.InvalidCategoryId
 
     @staticmethod
     def _prepare_checkpoint_response_dtos(
@@ -80,7 +81,7 @@ class GetEntityCategoryCheckpointsInteractor:
                 updated_cp = CheckpointResponseDTO(
                     checkpoint_id=cat_cp.checkpoint_id,
                     text=new_text,
-                    order=cat_cp.order,
+                    order=entity_cp.order,
                     category_id=cat_cp.category_id,
                     is_checked=entity_cp.is_checked
                 )
@@ -89,9 +90,9 @@ class GetEntityCategoryCheckpointsInteractor:
                 updated_cp = CheckpointResponseDTO(
                     checkpoint_id=cat_cp.checkpoint_id,
                     text=cat_cp.text,
-                    order=cat_cp.order,
                     category_id=cat_cp.category_id,
-                    is_checked=False
+                    is_checked=False,
+                    order=None
                 )
                 updated_checkpoints_dtos.append(updated_cp)
 

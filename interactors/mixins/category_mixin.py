@@ -12,10 +12,10 @@ class CategoryMixin:
         valid_checkpoint_ids = storage.get_valid_checkpoints(
             checkpoint_ids=checkpoint_ids
         )
+        invalid_ids = [_id for _id in checkpoint_ids if _id not in valid_checkpoint_ids]
 
-        for checkpoint_id in checkpoint_ids:
-            if checkpoint_id not in valid_checkpoint_ids:
-                raise custom_exceptions.InvalidCheckpointId
+        if invalid_ids:
+            raise custom_exceptions.InvalidCheckpointId
 
     def validate_category_id(
             self,

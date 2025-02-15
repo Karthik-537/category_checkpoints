@@ -2,6 +2,7 @@ from interactors.storage_interfaces.dtos import CheckpointResponseDTO, CategoryD
 from typing import List, Tuple
 from interactors.get_entity_category_checkpoints import GetEntityCategoryCheckpointsInteractor
 from interactors.storage_interfaces.storage_interface import StorageInterface
+from constants.enums import CategoryEntityType
 
 
 class GetEntityCheckedCategoryCheckpointsInteractor:
@@ -15,7 +16,7 @@ class GetEntityCheckedCategoryCheckpointsInteractor:
     def get_entity_checked_category_checkpoints(
             self,
             entity_id: str,
-            entity_type: str,
+            entity_type: CategoryEntityType,
             category_ids: List[str]
     ) -> Tuple[List[CategoryDTO], List[CheckpointResponseDTO]]:
         interactor = GetEntityCategoryCheckpointsInteractor(
