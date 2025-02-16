@@ -5,8 +5,8 @@ from exceptions import custom_exceptions
 
 class CategoryMixin:
 
+    @staticmethod
     def validate_checkpoint_ids(
-            self,
             checkpoint_ids: List[str],
             storage: StorageInterface
     ):
@@ -21,8 +21,8 @@ class CategoryMixin:
                 invalid_ids=invalid_ids
             )
 
+    @staticmethod
     def validate_category_id(
-            self,
             category_id: str,
             storage: StorageInterface
     ):
@@ -34,8 +34,8 @@ class CategoryMixin:
                 invalid_ids=[category_id]
             )
 
+    @staticmethod
     def validate_checkpoint_id(
-            self,
             checkpoint_id: str,
             storage: StorageInterface
     ):
@@ -48,8 +48,8 @@ class CategoryMixin:
                 invalid_ids=[checkpoint_id]
             )
 
+    @staticmethod
     def validate_category_ids(
-            self,
             category_ids: List[str],
             storage: StorageInterface
     ):
@@ -62,4 +62,3 @@ class CategoryMixin:
             custom_exceptions.InvalidCategoryId(
                 invalid_ids=invalid_ids
             )
-

@@ -188,3 +188,11 @@ class StorageInterface:
     ) -> CategoryCheckpointType:
         pass
 
+    @abstractmethod
+    def reorder_entity_checkpoints(
+            self, entity_id: str,
+            entity_type: CategoryEntityType,
+            checkpoint_ids: List[str]
+    ):
+        pass
+

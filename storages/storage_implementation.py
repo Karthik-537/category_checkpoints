@@ -3,7 +3,7 @@ from models.category import Category, CategoryCheckpoint, EntityCategoryCheckpoi
 from typing import List
 from django.db.models import Q, Max
 from interactors.storage_interfaces.dtos import CategoryDTO, CategoryCheckpointDTO, EntityCategoryCheckpointDTO
-from constants.enums import CategoryEntityType, CategoryCheckpointType, CategoryType
+from constants.enums import CategoryEntityType, CategoryCheckpointType
 
 
 class StorageImplementation(StorageInterface):
@@ -318,7 +318,7 @@ class StorageImplementation(StorageInterface):
     ):
         dto_map = {dto.checkpoint_id: dto for dto in category_checkpoint_dtos}
 
-        checkpoints = list(CategoryCheckpoint.objects.filter(id__in=list(dto_map.keys())))
+        checkpoints = CategoryCheckpoint.objects.filter(id__in=list(dto_map.keys()))
 
         for cp in checkpoints:
             dto = dto_map.get(cp.id)
@@ -361,3 +361,21 @@ class StorageImplementation(StorageInterface):
             checkpoint_ids: List[str]
     ):
         CategoryCheckpoint.objects.filter(id__in=checkpoint_ids).delete()
+
+    def reorder_entity_checkpoints(
+            self, entity_id: str,
+            entity_type: CategoryEntityType,
+            checkpoint_ids: List[str]
+    ):
+        checkpoints = EntityCategoryCheckpoint.objects.filter(
+                            entity_id=entity_id,
+                            entity_type=entity_type,
+                            checkpoint_id__in=checkpoint_ids
+                        )
+        order = 1
+        for checkpoint in checkpoints:
+            checkpoint.order = order
+            order += 1
+        EntityCategoryCheckpoint.objects.bulk_update(
+            checkpoints, ["order"]
+        )
