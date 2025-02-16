@@ -1,19 +1,12 @@
 from interactors.storage_interfaces.storage_interface import StorageInterface
 from interactors.storage_interfaces.dtos import CategoryDTO
-from interactors.mixins.category_mixin import CategoryMixin
 from exceptions import custom_exceptions
 from constants.enums import CategoryType
 
 
-class UpdateOrCreateCategory:
-
+class UpdateOrCreateCategoryInteractor:
     def __init__(self, storage: StorageInterface):
-
         self.storage = storage
-
-    @property
-    def category_mixin(self):
-        return CategoryMixin()
 
     def update_or_create_category(
             self,
@@ -40,7 +33,6 @@ class UpdateOrCreateCategory:
                 category_dto=category_dto
             )
 
-
     def _validate_parent_category_id(
             self,
             parent_category_id: str
@@ -52,7 +44,6 @@ class UpdateOrCreateCategory:
             raise custom_exceptions.InvalidParentCategoryId(
                 parent_category_id=parent_category_id
             )
-
 
     def _validate_parent_category_type(
             self,
@@ -66,4 +57,3 @@ class UpdateOrCreateCategory:
             raise custom_exceptions.NotSupportedParentCategoryType(
                 parent_category_id=parent_category_id
             )
-

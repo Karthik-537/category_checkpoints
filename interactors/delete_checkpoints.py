@@ -3,7 +3,7 @@ from interactors.mixins.category_mixin import CategoryMixin
 from typing import List
 
 
-class DeleteCheckPoints:
+class DeleteCheckPointsInteractor:
 
     def __init__(
             self,
@@ -11,6 +11,7 @@ class DeleteCheckPoints:
     ):
         self.storage = storage
 
+    @property
     def category_mixin(self):
         return CategoryMixin()
 
@@ -18,7 +19,7 @@ class DeleteCheckPoints:
             self,
             checkpoint_ids: List[str]
     ):
-        self.category_mixin().validate_checkpoint_ids(
+        self.category_mixin.validate_checkpoint_ids(
             checkpoint_ids=checkpoint_ids,
             storage=self.storage
         )

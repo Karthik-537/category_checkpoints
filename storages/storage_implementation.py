@@ -154,17 +154,6 @@ class StorageImplementation(StorageInterface):
         )
         return checkpoint_ids
 
-    def validate_category_id(
-            self,
-            category_id: str
-    ):
-        category_id_exists = Category.objects.filter(id=category_id).exists()
-        category_id_not_exists = not category_id_exists
-        if category_id_not_exists:
-            return True
-        else:
-            return False
-
     def update_category_checkpoint_status(
             self,
             entity_id: str,
@@ -274,7 +263,7 @@ class StorageImplementation(StorageInterface):
         checkpoint.text = text
         checkpoint.save()
 
-    def get_max_order_for_entity_custom_checkpoint(
+    def get_entity_custom_checkpoints_max_order(
             self,
             entity_id: str,
             entity_type: CategoryEntityType
@@ -336,12 +325,11 @@ class StorageImplementation(StorageInterface):
 
     def update_category_checkpoints(
             self,
-            checkpoint_ids: List[str],
             category_checkpoint_dtos: List[CategoryCheckpointDTO]
     ):
-        checkpoints = list(CategoryCheckpoint.objects.filter(id__in=checkpoint_ids))
-
         dto_map = {dto.checkpoint_id: dto for dto in category_checkpoint_dtos}
+
+        checkpoints = list(CategoryCheckpoint.objects.filter(id__in=list(dto_map.keys())))
 
         for cp in checkpoints:
             dto = dto_map.get(cp.id)
@@ -354,25 +342,22 @@ class StorageImplementation(StorageInterface):
 
         CategoryCheckpoint.objects.bulk_update(checkpoints)
 
-
     def create_category_checkpoints(
             self,
-            checkpoint_ids: List[str],
             category_checkpoint_dtos: List[CategoryCheckpointDTO]
     ):
         checkpoints = []
         for dto in category_checkpoint_dtos:
-            if dto.checkpoint_id in checkpoint_ids:
-                checkpoints.append(
-                    CategoryCheckpoint(
-                        id=dto.checkpoint_id,
-                        text=dto.text,
-                        checkpoint_type=dto.checkpoint_type,
-                        category_id=dto.category_id,
-                        entity_id=dto.entity_id,
-                        entity_type=dto.entity_type
-                    )
+            checkpoints.append(
+                CategoryCheckpoint(
+                    id=dto.checkpoint_id,
+                    text=dto.text,
+                    checkpoint_type=dto.checkpoint_type,
+                    category_id=dto.category_id,
+                    entity_id=dto.entity_id,
+                    entity_type=dto.entity_type
                 )
+            )
 
         CategoryCheckpoint.objects.bulk_create(checkpoints)
 
@@ -387,11 +372,3 @@ class StorageImplementation(StorageInterface):
             checkpoint_ids: List[str]
     ):
         CategoryCheckpoint.objects.filter(id__in=checkpoint_ids).delete()
-
-
-
-
-
-
-
-

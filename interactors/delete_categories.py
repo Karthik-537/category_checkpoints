@@ -3,7 +3,7 @@ from interactors.mixins.category_mixin import CategoryMixin
 from typing import List
 
 
-class DeleteCategories:
+class DeleteCategoriesInteractor:
 
     def __init__(
             self,
@@ -11,6 +11,7 @@ class DeleteCategories:
     ):
         self.storage = storage
 
+    @property
     def category_mixin(self):
         return CategoryMixin()
 
@@ -18,7 +19,7 @@ class DeleteCategories:
             self,
             category_ids: List[str]
     ):
-        self.category_mixin().validate_category_ids(
+        self.category_mixin.validate_category_ids(
             category_ids=category_ids,
             storage=self.storage
         )

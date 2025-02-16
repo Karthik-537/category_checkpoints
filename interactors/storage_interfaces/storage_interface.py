@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import List
-from interactors.storage_interfaces.dtos import UpdateCategoryCheckPointStatusDTO, EntityCustomCheckPointDTO,\
-    CategoryDTO, CategoryCheckpointDTO, EntityCategoryCheckpointDTO, UpdateCategoryCheckpointTextDTO
+from interactors.storage_interfaces.dtos import UpdateCategoryCheckPointStatusDTO, CategoryDTO, \
+    CategoryCheckpointDTO, EntityCategoryCheckpointDTO
 from constants.enums import CategoryEntityType
 
 
@@ -17,14 +17,14 @@ class StorageInterface:
     @abstractmethod
     def get_subcategory_ids_for_category_ids(
             self,
-            category_ids:List[str]
+            category_ids: List[str]
     ) -> List[str]:
         pass
 
     @abstractmethod
     def validate_checkpoint_ids(
             self,
-            checkpoint_dto:UpdateCategoryCheckPointStatusDTO
+            checkpoint_dto: UpdateCategoryCheckPointStatusDTO
     ):
         pass
 
@@ -131,7 +131,6 @@ class StorageInterface:
     ):
         pass
 
-
     @abstractmethod
     def get_entity_custom_checkpoints_max_order(
             self,
@@ -164,7 +163,6 @@ class StorageInterface:
     @abstractmethod
     def update_category_checkpoints(
             self,
-            checkpoint_ids: List[str],
             category_checkpoint_dtos: List[CategoryCheckpointDTO]
     ):
         pass
@@ -172,7 +170,6 @@ class StorageInterface:
     @abstractmethod
     def create_category_checkpoints(
             self,
-            checkpoint_ids: List[str],
             category_checkpoint_dtos: List[CategoryCheckpointDTO]
     ):
         pass
