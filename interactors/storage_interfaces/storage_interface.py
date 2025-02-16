@@ -1,8 +1,8 @@
 from abc import abstractmethod
-from typing import List
+from typing import List, Optional
 from interactors.storage_interfaces.dtos import UpdateCategoryCheckPointStatusDTO, CategoryDTO, \
     CategoryCheckpointDTO, EntityCategoryCheckpointDTO
-from constants.enums import CategoryEntityType
+from constants.enums import CategoryEntityType, CategoryCheckpointType, CategoryType
 
 
 class StorageInterface:
@@ -119,7 +119,7 @@ class StorageInterface:
             entity_id: str,
             entity_type: CategoryEntityType,
             checkpoint_id: str,
-            text: str
+            text: Optional[str]
     ):
         pass
 
@@ -137,13 +137,6 @@ class StorageInterface:
             entity_id: str,
             entity_type: CategoryEntityType
     ) -> int:
-        pass
-
-    @abstractmethod
-    def get_category_type(
-            self,
-            category_id: str
-    ) -> str:
         pass
 
     @abstractmethod
@@ -187,3 +180,11 @@ class StorageInterface:
             checkpoint_ids: List[str]
     ):
         pass
+
+    @abstractmethod
+    def get_checkpoint_type(
+            self,
+            checkpoint_id: str
+    ) -> CategoryCheckpointType:
+        pass
+

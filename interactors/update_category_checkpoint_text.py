@@ -27,7 +27,7 @@ class UpdateCategoryCheckPointTextInteractor:
         )
         checkpoint_dto = checkpoint_dtos[0]
 
-        if checkpoint_dto.checkpoint_type == CategoryCheckpointType.SYSTEM:
+        if checkpoint_dto.checkpoint_type == CategoryCheckpointType.CUSTOM.value:
             self.storage.update_category_checkpoint_text(
                 checkpoint_id=update_category_checkpoint_text_dto.checkpoint_id,
                 text=update_category_checkpoint_text_dto.text

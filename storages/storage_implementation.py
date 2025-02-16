@@ -3,7 +3,7 @@ from models.category import Category, CategoryCheckpoint, EntityCategoryCheckpoi
 from typing import List
 from django.db.models import Q, Max
 from interactors.storage_interfaces.dtos import CategoryDTO, CategoryCheckpointDTO, EntityCategoryCheckpointDTO
-from constants.enums import CategoryEntityType, CategoryCheckpointType
+from constants.enums import CategoryEntityType, CategoryCheckpointType, CategoryType
 
 
 class StorageImplementation(StorageInterface):
@@ -280,17 +280,6 @@ class StorageImplementation(StorageInterface):
             return max_order
         else:
             return 0
-
-    def get_category_type(
-            self,
-            category_id: str
-    ) -> str:
-
-        category = Category.objects.get(
-            id=category_id
-        )
-
-        return category.category_type
 
     def update_category(
             self,

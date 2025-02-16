@@ -45,3 +45,14 @@ class NotSupportedParentCategoryType(Exception):
     def __str__(self):
 
         return f"not supported category_type for {self.parent_category_id}"
+
+class NotSupportedCheckpointType(Exception):
+
+    def __init__(
+            self,
+            checkpoint_id: str
+    ):
+        self.checkpoint_id = checkpoint_id
+
+    def __str__(self):
+        return f"not supported checkpoint type for {self.checkpoint_id}"

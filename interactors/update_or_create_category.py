@@ -49,11 +49,11 @@ class UpdateOrCreateCategoryInteractor:
             self,
             parent_category_id: str
     ):
-        category_type = self.storage.get_category_type(
-            category_id=parent_category_id
+        category_dtos = self.storage.get_categories(
+            category_ids=[parent_category_id]
         )
 
-        if category_type == CategoryType.SUB_CATEGORY.value:
+        if category_dtos[0].category_type == CategoryType.SUB_CATEGORY.value:
             raise custom_exceptions.NotSupportedParentCategoryType(
                 parent_category_id=parent_category_id
             )
