@@ -100,13 +100,6 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def validate_category_id(
-            self,
-            category_id: str
-    ):
-        pass
-
-    @abstractmethod
     def create_entity_custom_checkpoints(
             self,
             entity_checkpoint_dtos: List[EntityCategoryCheckpointDTO]

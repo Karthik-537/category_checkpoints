@@ -3,7 +3,7 @@ from models.category import Category, CategoryCheckpoint, EntityCategoryCheckpoi
 from typing import List
 from django.db.models import Q, Max
 from interactors.storage_interfaces.dtos import CategoryDTO, CategoryCheckpointDTO, EntityCategoryCheckpointDTO
-from constants.enums import CategoryEntityType
+from constants.enums import CategoryEntityType, CategoryCheckpointType
 
 
 class StorageImplementation(StorageInterface):
@@ -25,7 +25,11 @@ class StorageImplementation(StorageInterface):
             category_ids: List[str]
     ) -> List[str]:
 
-        category_ids = Category.objects.all().values_list('id', flat=True)
+        category_ids = list(
+            Category.objects.filter(
+                id__in=category_ids
+            ).values_list('id', flat=True)
+        )
 
         return category_ids
 
@@ -77,11 +81,11 @@ class StorageImplementation(StorageInterface):
                 category_id__in=category_ids
             ) & (
                     Q(
-                        checkpoint_type="SYSTEM"
+                        checkpoint_type=CategoryCheckpointType.SYSTEM
                     ) | Q(
                             entity_id=entity_id,
                             entity_type=entity_type,
-                            checkpoint_type="CUSTOM"
+                            checkpoint_type=CategoryCheckpointType.CUSTOM
                          )
             )
         )
@@ -143,7 +147,11 @@ class StorageImplementation(StorageInterface):
             checkpoint_ids: List[str]
     ) -> List[str]:
 
-        checkpoint_ids = CategoryCheckpoint.objects.all().values_list('id', flat=True)
+        checkpoint_ids = list(
+            CategoryCheckpoint.objects.filter(
+                id__in=checkpoint_ids
+            ).values_list('id', flat=True)
+        )
         return checkpoint_ids
 
     def validate_category_id(

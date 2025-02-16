@@ -22,12 +22,11 @@ class CategoryMixin:
             category_id: str,
             storage: StorageInterface
     ):
-        is_invalid = storage.validate_category_id(
-            category_id=category_id
+        valid_category_ids = storage.get_valid_category_ids(
+            category_ids=[category_id]
         )
-        if is_invalid:
+        if category_id not in valid_category_ids:
             raise custom_exceptions.InvalidCategoryId
-
 
     def validate_checkpoint_id(
             self,
