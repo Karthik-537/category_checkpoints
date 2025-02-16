@@ -93,7 +93,7 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def get_valid_checkpoints(
+    def get_valid_checkpoint_ids(
             self,
             checkpoint_ids: List[str]
     ) -> List[str]:
@@ -138,4 +138,55 @@ class StorageInterface:
             entity_id: str,
             entity_type: CategoryEntityType
     ) -> int:
+        pass
+
+    @abstractmethod
+    def get_category_type(
+            self,
+            category_id: str
+    ) -> str:
+        pass
+
+    @abstractmethod
+    def update_category(
+            self,
+            category_dto: CategoryDTO
+    ):
+        pass
+
+    @abstractmethod
+    def create_category(
+            self,
+            category_dto: CategoryDTO
+    ):
+        pass
+
+    @abstractmethod
+    def update_category_checkpoints(
+            self,
+            checkpoint_ids: List[str],
+            category_checkpoint_dtos: List[CategoryCheckpointDTO]
+    ):
+        pass
+
+    @abstractmethod
+    def create_category_checkpoints(
+            self,
+            checkpoint_ids: List[str],
+            category_checkpoint_dtos: List[CategoryCheckpointDTO]
+    ):
+        pass
+
+    @abstractmethod
+    def delete_categories(
+            self,
+            category_ids: List[str]
+    ):
+        pass
+
+    @abstractmethod
+    def delete_checkpoints(
+            self,
+            checkpoint_ids: List[str]
+    ):
         pass
